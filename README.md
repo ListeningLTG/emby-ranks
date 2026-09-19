@@ -1,8 +1,5 @@
 # 📊 Emby-Ranks (Emby 媒体播放与观影时长榜单推送)
 
-<p align="center">
-  <img src="assets/day_ranks_mask.png" alt="Emby-Ranks Banner" width="450">
-</p>
 
 `Emby-Ranks` 是一个轻量、专注且功能完善的 Emby 媒体服务器榜单与观影数据统计推送工具。从 `Sakura_embyboss` 抽离重构，去除了繁琐的开服管理和数据库依赖，专注于**自动化榜单渲染**与**多渠道推送**。
 
