@@ -104,7 +104,7 @@ docker run -d \
   -e TZ=Asia/Shanghai \
   -e EMBY_URL="http://192.168.1.100:8096" \
   -e EMBY_API_KEY="your_api_key" \
-  -e EMBY_SERVER_NAME="🌸 SAKURA EMBY" \
+  -e EMBY_SERVER_NAME="MY EMBY" \
   -e TELEGRAM_BOT_TOKEN="123456:ABC..." \
   -e TELEGRAM_CHAT_ID="-100123456789" \
   -v $(pwd)/data:/app/data \
@@ -144,7 +144,7 @@ timezone: "Asia/Shanghai"
 emby:
   url: "http://192.168.1.100:8096"
   api_key: "your_emby_api_key_here"
-  server_name: "🌸 SAKURA EMBY"   # 海报和标题显示的 Logo
+  server_name: "MY EMBY"   # 海报和标题显示的 Logo
 
 poster:
   use_backdrop: false            # true: 使用横版剧照; false: 使用竖版海报

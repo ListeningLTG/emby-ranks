@@ -14,7 +14,7 @@ services:
       # 支持通过环境变量直接注入配置:
       # - EMBY_URL=http://192.168.1.100:8096
       # - EMBY_API_KEY=your_api_key
-      # - EMBY_SERVER_NAME=🌸 SAKURA EMBY
+      # - EMBY_SERVER_NAME=MY EMBY
       # - TELEGRAM_BOT_TOKEN=123456:ABC...
       # - TELEGRAM_CHAT_ID=-100123456789
     volumes:
