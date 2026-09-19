@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  emby-ranks:
+    image: ${DOCKERHUB_USERNAME:-listeningltg}/emby-ranks:latest
+    container_name: emby-ranks
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHONUNBUFFERED=1
+      - PORT=8000
+      # 支持通过环境变量直接注入配置:
+      # - EMBY_URL=http://192.168.1.100:8096
+      # - EMBY_API_KEY=your_api_key
+      # - EMBY_SERVER_NAME=🌸 SAKURA EMBY
+      # - TELEGRAM_BOT_TOKEN=123456:ABC...
+      # - TELEGRAM_CHAT_ID=-100123456789
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/data
+      # 可选：挂载 assets 自定义海报背景与字体
+      # - ./assets:/app/assets

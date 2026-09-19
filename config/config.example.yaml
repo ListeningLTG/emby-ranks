@@ -1,0 +1,58 @@
+# ==========================================
+# Emby-Ranks 配置文件模板
+# ==========================================
+
+timezone: "Asia/Shanghai"
+
+# Emby 服务器配置 (必填)
+emby:
+  url: ""                         # 例如: "http://192.168.1.100:8096"
+  api_key: ""                     # Emby API 密钥
+  server_name: ""                 # 榜单海报与标题显示的名称/Logo (例如: "我的 Emby 影院")
+
+# 海报渲染设置
+poster:
+  use_backdrop: false            # true: 使用横版剧照/背景图; false: 使用竖版海报
+  top_limit: 10                  # 榜单统计与展示前 N 项 (海报展示前5项，文本展示前10项)
+  assets_dir: "./assets"         # 素材目录路径
+  user_rank_image: ""            # 用户时长榜专属封面海报路径/URL (可选，例如: "./assets/user_rank_cover.jpg")
+
+# 调度计划 (Cron 表达式标准5段: 分 时 日 月 周)
+schedules:
+  day_rank:
+    enabled: false
+    cron: "30 18 * * *"          # 每天 18:30 推送媒体播放日榜
+    pin_message: true            # 是否自动置顶推送的消息
+  week_rank:
+    enabled: false
+    cron: "59 23 * * 0"          # 每周日 23:59 推送媒体播放周榜
+    pin_message: true
+  day_play_rank:
+    enabled: false
+    cron: "00 23 * * *"          # 每天 23:00 推送用户观看时长日榜
+    pin_message: false
+  week_play_rank:
+    enabled: false
+    cron: "00 23 * * 0"          # 每周日 23:00 推送用户观看时长周榜
+    pin_message: false
+
+# 推送通知渠道
+notifiers:
+  telegram:
+    enabled: false
+    bot_token: ""                # Telegram 机器人 Token
+    chat_id: ""                  # 频道或群组 ID (例如: -1001234567890)
+    pin_message: true            # 是否自动置顶最新榜单并取消上期置顶
+    proxy: ""                    # 可选代理，如 "http://127.0.0.1:7890"
+    admin_only: false            # true: 仅允许群组管理员在群内触发机器人指令; false: 允许全员触发
+    cooldown_seconds: 15         # 群聊命令防刷冷却时间 (秒)
+    whitelist_user_ids: ""       # 私聊授权白名单 User ID (逗号分隔支持多个，留空表示允许所有人私聊)
+
+  discord:
+    enabled: false
+    webhook_url: ""              # Discord Webhook 地址
+
+  webhook:
+    enabled: false
+    url: ""                      # 通用 Webhook 地址 (支持企业微信/Bark/PushPlus)
+    headers: {}
