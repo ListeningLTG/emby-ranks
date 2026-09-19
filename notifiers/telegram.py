@@ -4,7 +4,7 @@ import asyncio
 import logging
 import httpx
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 from notifiers.base import BaseNotifier
 
 logger = logging.getLogger("emby-ranks.telegram")
