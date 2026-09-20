@@ -127,12 +127,19 @@ class StatsEngine:
         full_text = f"**【{self.server_name} {title_prefix}】**\n\n{body}\n{tag}  `{today_str}`"
         return poster_bytes, full_text
 
-    async def generate_user_play_rank(self, days: int = 7, is_weekly: bool = True, page: int = 1, page_size: int = 10) -> Tuple[str, int, int]:
+    async def generate_user_play_rank(self, days: int = 7, is_weekly: Optional[bool] = None, page: int = 1, page_size: int = 10) -> Tuple[str, int, int]:
         """
-        生成用户观看时长日榜 / 周榜 (支持分页)
+        生成用户观看时长日榜 / 周榜 / 月榜 (支持分页)
         返回: (Markdown 榜单文本, 总页数, 当前页码)
         """
-        title = f"{days} 天观影榜" if not is_weekly else "每周观影时长榜"
+        if days == 30:
+            title = "每月观影时长榜"
+        elif days == 7 or (is_weekly is True and days not in (1, 30)):
+            title = "每周观影时长榜"
+        elif days == 1:
+            title = "每日观影时长榜"
+        else:
+            title = f"{days} 天观影时长榜"
         tag = "#UPlaysRank"
         today_str = datetime.now(self.tz).strftime("%Y-%m-%d")
 

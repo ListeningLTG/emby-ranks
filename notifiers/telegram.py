@@ -423,10 +423,9 @@ class TelegramNotifier(BaseNotifier):
                                 if len(parts) == 3:
                                     days = int(parts[1])
                                     page = int(parts[2])
-                                    is_weekly = (days >= 7)
 
                                     new_text, total_pages, cur_page = await stats_engine.generate_user_play_rank(
-                                        days=days, is_weekly=is_weekly, page=page
+                                        days=days, page=page
                                     )
                                     new_markup = make_pagination_keyboard(days, cur_page, total_pages)
 
@@ -540,10 +539,9 @@ class TelegramNotifier(BaseNotifier):
                                 days = 7
                                 if len(parts) > 1 and parts[1].isdigit():
                                     days = max(1, min(365, int(parts[1])))
-                                is_weekly = (days >= 7)
 
                                 text, total_pages, cur_page = await stats_engine.generate_user_play_rank(
-                                    days=days, is_weekly=is_weekly, page=1
+                                    days=days, page=1
                                 )
                                 user_img = await stats_engine.get_user_rank_image_bytes()
                                 markup = make_pagination_keyboard(days=days, current_page=cur_page, total_pages=total_pages)
