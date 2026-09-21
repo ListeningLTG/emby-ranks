@@ -47,7 +47,7 @@
         <h3 class="text-base font-bold text-white flex items-center gap-2">
           <span>⏱️ 定时推送调度 (APScheduler)</span>
         </h3>
-        <p class="text-xs text-slate-400 mt-0.5">支持标准 5 段式 Cron 表达式 (分 时 日 月 周)，可点击预设按钮快速填入</p>
+        <p class="text-xs text-slate-400 mt-0.5">支持通用 Linux 标准 5 段式 Cron 表达式 (分 时 日 月 周，0/7 为周日，1 为周一，亦支持 sun/mon/mon-fri 等)，可点击预设按钮快速填入</p>
       </div>
 
       <div class="space-y-4">

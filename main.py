@@ -3,18 +3,14 @@ import sys
 import asyncio
 import argparse
 import logging
+from core.logger import init_logger
 from core.config import load_config
 from core.emby_client import EmbyClient
 from core.stats_engine import StatsEngine
 from scheduler import RankScheduler
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)]
-)
-logging.getLogger("httpx").setLevel(logging.WARNING)
-logging.getLogger("httpcore").setLevel(logging.WARNING)
+# 初始化全局日志 (控制台 + data/logs/emby-ranks.log 按天滚动保留7天)
+init_logger()
 logger = logging.getLogger("emby-ranks")
 
 

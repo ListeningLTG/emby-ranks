@@ -9,6 +9,41 @@ from notifiers import TelegramNotifier, DiscordNotifier, GenericWebhookNotifier
 logger = logging.getLogger("emby-ranks.scheduler")
 
 
+import re
+
+def normalize_standard_cron(expr: str) -> str:
+    """
+    将通用的 Linux / Unix 标准 Cron 表达式转换为 APScheduler 兼容格式。
+    在 Linux 标准 Cron 中：0 和 7 均代表周日(Sunday)，1-6 分别代表周一至周六。
+    APScheduler 默认 0 为周一，直接传入数字易产生歧义。
+    本函数将星期字段规范化为英文单词缩写 (sun, mon, tue, wed, thu, fri, sat)。
+    """
+    if not expr:
+        return expr
+    
+    parts = expr.strip().split()
+    if len(parts) != 5:
+        return expr
+    
+    minute, hour, day, month, dow = parts
+    
+    day_map = {
+        '0': 'sun',
+        '1': 'mon',
+        '2': 'tue',
+        '3': 'wed',
+        '4': 'thu',
+        '5': 'fri',
+        '6': 'sat',
+        '7': 'sun'
+    }
+    
+    # 替换独立数字 0-7 为对应英文星期简写
+    converted_dow = re.sub(r'\b[0-7]\b', lambda m: day_map.get(m.group(0), m.group(0)), dow.lower())
+    
+    return f"{minute} {hour} {day} {month} {converted_dow}"
+
+
 class RankScheduler:
     def __init__(self, config: AppConfig, stats_engine: StatsEngine):
         self.config = config
@@ -132,7 +167,7 @@ class RankScheduler:
         logger.info("【定时任务】用户观看时长周榜执行完毕")
 
     def register_jobs(self):
-        """注册配置中的定时任务"""
+        """注册配置中的定时任务 (自动适配 Linux 标准 Cron 规范)"""
         sched_map = {
             "day_rank": (self.config.schedules.day_rank, self.run_day_rank),
             "week_rank": (self.config.schedules.week_rank, self.run_week_rank),
@@ -143,15 +178,17 @@ class RankScheduler:
         for task_name, (sched_item, func) in sched_map.items():
             if sched_item.enabled and sched_item.cron:
                 try:
-                    trigger = CronTrigger.from_crontab(sched_item.cron, timezone=self.tz)
-                    self.scheduler.add_job(
+                    normalized_cron = normalize_standard_cron(sched_item.cron)
+                    trigger = CronTrigger.from_crontab(normalized_cron, timezone=self.tz)
+                    job = self.scheduler.add_job(
                         func,
                         trigger=trigger,
                         id=task_name,
                         name=task_name,
                         replace_existing=True
                     )
-                    logger.info(f"已注册定时任务 [{task_name}]: cron='{sched_item.cron}'")
+                    next_run = job.next_run_time.strftime('%Y-%m-%d %H:%M:%S %Z') if job.next_run_time else "未知"
+                    logger.info(f"已注册定时任务 [{task_name}]: cron='{sched_item.cron}' (规范化: '{normalized_cron}'), 下次执行: {next_run}")
                 except Exception as e:
                     logger.error(f"注册任务 [{task_name}] 失败，cron 格式错误 '{sched_item.cron}': {e}")
 

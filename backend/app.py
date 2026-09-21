@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from starlette.middleware.cors import CORSMiddleware
 
+from core.logger import init_logger
 from core.config import load_config, AppConfig
 from core.emby_client import EmbyClient
 from core.stats_engine import StatsEngine
@@ -16,6 +17,7 @@ from backend.api.config_api import router as config_router
 from backend.api.ranks_api import router as ranks_router
 from backend.api.test_api import router as test_router
 
+init_logger()
 logger = logging.getLogger("emby-ranks.app")
 
 

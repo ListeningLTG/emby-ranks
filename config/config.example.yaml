@@ -17,7 +17,7 @@ poster:
   assets_dir: "./assets"         # 素材目录路径
   user_rank_image: ""            # 用户时长榜专属封面海报路径/URL (可选，例如: "./assets/user_rank_cover.jpg")
 
-# 调度计划 (Cron 表达式标准5段: 分 时 日 月 周)
+# 调度计划 (Cron 表达式标准5段: 分 时 日 月 周，遵循通用 Linux 标准: 0或7=周日, 1=周一, 1-5=工作日, 亦支持英文 sun/mon/mon-fri 等)
 schedules:
   day_rank:
     enabled: false
@@ -25,7 +25,7 @@ schedules:
     pin_message: true            # 是否自动置顶推送的消息
   week_rank:
     enabled: false
-    cron: "59 23 * * 0"          # 每周日 23:59 推送媒体播放周榜
+    cron: "59 23 * * 0"          # 每周日 23:59 推送媒体播放周榜 (0或7或sun均代表周日)
     pin_message: true
   day_play_rank:
     enabled: false
@@ -33,7 +33,7 @@ schedules:
     pin_message: false
   week_play_rank:
     enabled: false
-    cron: "00 23 * * 0"          # 每周日 23:00 推送用户观看时长周榜
+    cron: "00 23 * * 0"          # 每周日 23:00 推送用户观看时长周榜 (0或7或sun均代表周日)
     pin_message: false
 
 # 推送通知渠道

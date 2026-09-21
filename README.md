@@ -79,7 +79,7 @@ services:
       - TZ=Asia/Shanghai
     volumes:
       - ./config:/app/config
-      - ./data:/app/data
+      - ./data:/app/data          # 数据持久化目录: 包含 Telegram 置顶记录与 ./data/logs/ 每日自动归档日志(保留7天)
       # 可选：自定义海报字体或背景遮罩
       # - ./assets:/app/assets
 ```
